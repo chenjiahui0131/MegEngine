@@ -23,6 +23,7 @@
 #include "megbrain/opr/dnn/local.h"
 #include "megbrain/opr/dnn/lsq.h"
 #include "megbrain/opr/dnn/pooling.h"
+#include "megbrain/opr/dnn/pixel_shuffle.h"
 #include "megbrain/opr/dnn/roi_align.h"
 #include "megbrain/opr/dnn/roi_pooling.h"
 #include "megbrain/opr/dnn/tqt.h"
@@ -658,6 +659,19 @@ auto apply_on_var_node(const OpDef& def, const VarNodeArray& inputs) {
 
 OP_TRAIT_REG(Cumsum, Cumsum).apply_on_var_node(apply_on_var_node).fallback();
 }  // namespace cumsum
+}  // namespace
+
+namespace {
+namespace pixel_shuffle {
+auto apply_on_var_node(const OpDef& def, const VarNodeArray& inputs) {
+  auto&& op = static_cast<const PixelShuffle&>(def);
+  mgb_assert(inputs.size() == 1);
+  return opr::PixelShuffle::make(inputs[0], op.param());
+}
+OP_TRAIT_REG(PixelShuffle, PixelShuffle)
+          .apply_on_var_node(apply_on_var_node)
+          .fallback();
+}  // namespace add
 }  // namespace
 
 } // namespace mgb::imperative

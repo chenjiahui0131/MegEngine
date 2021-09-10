@@ -36,14 +36,14 @@ pdef('Axis').add_fields('int32', 'axis', 0)
  add_enum(Doc('Format', 'convolution data/filter/output format; see '
               ':class:`RelayoutFormat` for more details'),
           'NCHW', 'NHWC', 'NHWCD4', 'NCHW4', 'NCHW8', 'NCHW32', 'NCHW88',
-          'NCHW44','NCHW44_DOT', 
+          'NCHW44','NCHW44_DOT',
           Doc('NCHW_WINOGRAD', 'NCHW layout with weights tranformed by winograd'),
           Doc('NCHW88_WINOGRAD', 'NCHW88 layout with weights tranformed by winograd'),
           Doc('NCHW44_WINOGRAD', 'NCHW44 layout with weights tranformed by winograd'),
-          Doc('NCHW4_NCHW32', 'NCHW4_NCHW32 means input tensors are nchw4 layout, output tensor is nchw32 layout'), 
-          Doc('NCHW32_NCHW4', 'NCHW32_NCHW4 means input tensors are nchw32 layout, output tensor is nchw4 layout'), 
-          Doc('NCHW4_NCHW', 'NCHW4_NCHW means input tensors are nchw4 layout, output tensor is nchw layout'), 
-          Doc('NCHW4_NHWC', 'NCHW4_NHWC means input tensors are nchw4 layout, output tensor is nhwc layout'), 
+          Doc('NCHW4_NCHW32', 'NCHW4_NCHW32 means input tensors are nchw4 layout, output tensor is nchw32 layout'),
+          Doc('NCHW32_NCHW4', 'NCHW32_NCHW4 means input tensors are nchw32 layout, output tensor is nchw4 layout'),
+          Doc('NCHW4_NCHW', 'NCHW4_NCHW means input tensors are nchw4 layout, output tensor is nchw layout'),
+          Doc('NCHW4_NHWC', 'NCHW4_NHWC means input tensors are nchw4 layout, output tensor is nhwc layout'),
           Doc('NHWC_NCHW', 'NHWC_NCHW means input tensors are nhwc layout, '
               'output tensor is nchw layout'),
           Doc('NHWC_NCHW4_IC_SMALL', 'NHWC_NCHW4_IC_SMALL means input tensors are nhwc(c < 4) layout, '
@@ -96,11 +96,11 @@ pdef('Axis').add_fields('int32', 'axis', 0)
  add_enum(Doc('Format', 'convolution data/filter/output format; see '
               ':class:`RelayoutFormat` for more details'),
           'NCHW', 'NHWC', 'NHWCD4', 'NCHW4', 'NCHW8', 'NCHW32', 'NCHW88',
-          'NCHW44','NCHW44_DOT', 
-          Doc('NCHW4_NCHW32', 'NCHW4_NCHW32 means input tensors are nchw4 layout, output tensor is nchw32 layout'), 
-          Doc('NCHW32_NCHW4', 'NCHW32_NCHW4 means input tensors are nchw32 layout, output tensor is nchw4 layout'), 
-          Doc('NCHW4_NCHW', 'NCHW4_NCHW means input tensors are nchw4 layout, output tensor is nchw layout'), 
-          Doc('NCHW4_NHWC', 'NCHW4_NHWC means input tensors are nchw4 layout, output tensor is nhwc layout'), 
+          'NCHW44','NCHW44_DOT',
+          Doc('NCHW4_NCHW32', 'NCHW4_NCHW32 means input tensors are nchw4 layout, output tensor is nchw32 layout'),
+          Doc('NCHW32_NCHW4', 'NCHW32_NCHW4 means input tensors are nchw32 layout, output tensor is nchw4 layout'),
+          Doc('NCHW4_NCHW', 'NCHW4_NCHW means input tensors are nchw4 layout, output tensor is nchw layout'),
+          Doc('NCHW4_NHWC', 'NCHW4_NHWC means input tensors are nchw4 layout, output tensor is nhwc layout'),
           Doc('NHWC_NCHW', 'NHWC_NCHW means input tensors are nhwc layout, '
               'output tensor is nchw layout'),
           Doc('NHWC_NCHW4_IC_SMALL', 'NHWC_NCHW4_IC_SMALL means input tensors are nhwc(c < 4) layout, '
@@ -108,7 +108,7 @@ pdef('Axis').add_fields('int32', 'axis', 0)
           Doc('NCHW_NCHW4_IC_SMALL', 'NCHW_NCHW4_IC_SMALL means input tensors are nchw(c < 4) layout, '
               'output tensor is nchw4 layout, padding c=4'),
           Doc('CHWN4', 'CHWN4 is currently only used on Nvidia platform for fast implementation '
-              'of convolution using CUDA/SASS. The channels are splitted to groups of 4 channels.'), 
+              'of convolution using CUDA/SASS. The channels are splitted to groups of 4 channels.'),
           Doc('NCHW64', 'NCHW64 is designed for convolution implementation to utilizing TensorCore '
               'instructions for 4-bit integers on Nvidia platforms')).
  add_enum_alias('ComputeMode', 'ConvolutionV1',name_field='compute_mode')
@@ -1010,10 +1010,10 @@ Note: NCHW_NCHW4_WEIGHT will auto pad oc and ic, you should remove oc in later o
      'NCHW_NCHW4',
      'NCHW4_NCHW',
      'NCHW_NCHW4_WEIGHT',
-     'NCHW_NCHW64', 
-     'NCHW64_NCHW', 
-     'NCHW_NHWC', 
-     'NHWC_NCHW', 
+     'NCHW_NCHW64',
+     'NCHW64_NCHW',
+     'NCHW_NHWC',
+     'NHWC_NCHW',
     )
  )
 
@@ -1171,6 +1171,7 @@ Note: NCHW_NCHW4_WEIGHT will auto pad oc and ic, you should remove oc in later o
  add_fields('int32', 'qmax', '2147483647')
  )
 pdef('Fill').add_fields('float32', 'value', '0')
+pdef('PixelShuffle').add_fields('int32', 'upscale_factor', '1')
 
 
 PADDING_MODES = [Doc('REPLICATE', 'aaaaaa|abcdefgh|hhhhhhh'),

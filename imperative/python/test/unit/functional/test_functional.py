@@ -1028,3 +1028,25 @@ def test_sliding_window_transpose():
         dilation=(dh, dw),
     )
     np.testing.assert_equal(gt_out, out.numpy())
+
+
+def test_pixel_shuffle():
+    def pixel_shuffle(data, r):
+        inn, ic, ih, iw = data.shape
+        res = np.zeros((inn, int(ic / (r * r)), ih * r, iw * r))
+        for n in range(inn):
+            for c in range(ic):
+                for h in range(ih):
+                    for w in range(iw):
+                        res[
+                            n,
+                            int(c / r / r),
+                            h * r + int((c % (r * r)) / r),
+                            w * r + c % r,
+                        ] = data[n, c, h, w]
+        return res
+
+    inp = np.arange(3 * 18 * 3 * 3).reshape(3, 18, 3, 3)
+    out = F.pixel_shuffle(tensor(inp), upscale_factor=3)
+    golden = pixel_shuffle(inp, 3)
+    np.testing.assert_equal(out.numpy(), golden)

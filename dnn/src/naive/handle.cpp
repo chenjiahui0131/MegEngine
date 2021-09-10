@@ -86,6 +86,7 @@
 #include "src/naive/type_cvt/opr_impl.h"
 #include "src/naive/warp_affine/opr_impl.h"
 #include "src/naive/warp_perspective/opr_impl.h"
+#include "src/naive/pixel_shuffle/opr_impl.h"
 
 static size_t g_image2d_pitch_alignment = 1;
 

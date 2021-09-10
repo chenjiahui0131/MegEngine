@@ -219,7 +219,9 @@ private:
     cb(LSQBackward) \
     cb(Fill) \
     cb(PaddingForward) \
-    cb(PaddingBackward) 
+    cb(PaddingBackward) \
+    cb(PixelShuffle) \
+    cb(PixelShuffleBackward)
 
 /*!
  * \brief specialize HandleImpl::create_operator for a single opr type;

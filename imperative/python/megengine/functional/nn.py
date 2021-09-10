@@ -79,6 +79,7 @@ __all__ = [
     "sync_batch_norm",
     "warp_affine",
     "warp_perspective",
+    "pixel_shuffle",
 ]
 
 
@@ -1619,6 +1620,23 @@ def sliding_window_transpose(
         window_h=window_h,
         window_w=window_w,
     )
+    (output,) = apply(op, inp)
+    return output
+
+
+def pixel_shuffle(inp: Tensor, upscale_factor: int) -> Tensor:
+    """
+    Rearranges elements in a tensor of shape (*, C x r^2, H, W) to a tensor of
+    shape (*, C, H x r, W x r), where r is an upscale factor.
+
+    :param inp: input tensor.
+    :param upscale_factor: upscale factor of pixel_shuffle.
+    :return: output tensor.
+    """
+    assert upscale_factor > 0, "upscale_factor should larger than 0"
+    assert inp.ndim >= 3, "the input dimension of pixel_shuffle should be larger than 3"
+    assert inp.shape[-3] % (upscale_factor ** 2) == 0, "the -3 dimension should be divided by (upscale_factor ** 2)"
+    op = builtin.PixelShuffle(upscale_factor)
     (output,) = apply(op, inp)
     return output
 

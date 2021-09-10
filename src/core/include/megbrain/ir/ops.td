@@ -91,6 +91,7 @@ def BatchNorm : MgbHashableOp<"BatchNorm", [BNParam]>;
 
 def ROIAlign: MgbHashableOp<"ROIAlign", [ROIAlignParam]>;
 def Correlation: MgbHashableOp<"Correlation", [CorrelationParam]>;
+def PixelShuffle: MgbHashableOp<"PixelShuffle", [PixelShuffleParam]>;
 
 def WarpPerspective: MgbHashableOp<"WarpPerspective", [WarpPerspectiveParam]>;
 
