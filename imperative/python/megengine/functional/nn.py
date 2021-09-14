@@ -86,6 +86,7 @@ __all__ = [
     "sync_batch_norm",
     "warp_affine",
     "warp_perspective",
+    "pixel_shuffle",
 ]
 
 
@@ -1733,6 +1734,37 @@ def pad(
     return output
 
 
+def pixel_shuffle(inp: Tensor, upscale_factor: int) -> Tensor:
+    """
+    Rearranges elements in a tensor of shape (*, C x r^2, H, W) to a tensor of
+    shape (*, C, H x r, W x r), where r is an upscale factor, where * is zero
+    or more batch dimensions.
+
+    :param inp: input tensor.
+    :param upscale_factor: upscale factor of pixel_shuffle.
+    :return: output tensor.
+    """
+    assert upscale_factor > 0, "upscale_factor should larger than 0"
+    assert inp.ndim >= 3, "the input dimension of pixel_shuffle should be larger than 3"
+    assert (
+        inp.shape[-3] % (upscale_factor ** 2) == 0
+    ), "the -3 dimension should be divided by (upscale_factor ** 2)"
+    op = builtin.PixelShuffle(upscale_factor)
+    (output,) = apply(op, inp)
+    return output
+
+
+interpolate = deprecated_func("1.3", "megengine.functional.vision", "interpolate", True)
+roi_pooling = deprecated_func("1.3", "megengine.functional.vision", "roi_pooling", True)
+roi_align = deprecated_func("1.3", "megengine.functional.vision", "roi_align", True)
+nms = deprecated_func("1.3", "megengine.functional.vision", "nms", True)
+resize = deprecated_func("1.3", "megengine.functional.vision", "resize", True)
+remap = deprecated_func("1.3", "megengine.functional.vision", "remap", True)
+nvof = deprecated_func("1.3", "megengine.functional.vision", "nvof", True)
+warp_affine = deprecated_func("1.3", "megengine.functional.vision", "warp_affine", True)
+warp_perspective = deprecated_func(
+    "1.3", "megengine.functional.vision", "warp_perspective", True
+)
 from .quantized import conv_bias_activation  # isort:skip
 from .loss import *  # isort:skip
 from .metric import *  # isort:skip

@@ -1171,7 +1171,7 @@ Note: NCHW_NCHW4_WEIGHT will auto pad oc and ic, you should remove oc in later o
  add_fields('int32', 'qmax', '2147483647')
  )
 pdef('Fill').add_fields('float32', 'value', '0')
-
+pdef('PixelShuffle').add_fields('int32', 'upscale_factor', '1')
 
 PADDING_MODES = [Doc('REPLICATE = 0', 'aaaaaa|abcdefgh|hhhhhhh'),
                 Doc('REFLECT = 1', 'fedcba|abcdefgh|hgfedcb'),

@@ -1913,6 +1913,54 @@ protected:
                     const TensorLayout& grad_s, size_t workspace_in_bytes);
 };
 
+class PixelShuffleBase : public OperatorBase
+{
+    DEF_OPR_IMPL_CTOR(PixelShuffleBase, OperatorBase);
+    DEF_OPR_PARAM(PixelShuffle);
+
+protected:
+    void deduce_layout_fwd(const TensorLayout &input, TensorLayout &output);
+    void check_layout_fwd(const TensorLayout &input, const TensorLayout &output);
+};
+
+class PixelShuffleForward : public PixelShuffleBase
+{
+    DEF_OPR_IMPL(PixelShuffleForward, PixelShuffleBase, 1, 1);
+
+public:
+    virtual void exec(_megdnn_tensor_in input, _megdnn_tensor_out output, _megdnn_workspace workspace) = 0;
+    void deduce_layout(const TensorLayout &input, TensorLayout &output);
+    virtual size_t get_workspace_in_bytes(const TensorLayout &input,
+                                          const TensorLayout &output) = 0;
+
+protected:
+    void check_exec(const TensorLayout &input, const TensorLayout &output, size_t workspace_in_bytes);
+};
+using PixelShuffle = PixelShuffleForward;
+
+class PixelShuffleBackward : public PixelShuffleBase
+{
+    DEF_OPR_IMPL(PixelShuffleBackward, PixelShuffleBase, 3, 1);
+
+public:
+    virtual void exec(_megdnn_tensor_in src, _megdnn_tensor_in dst,
+                      _megdnn_tensor_in diff, _megdnn_tensor_out grad,
+                      _megdnn_workspace workspace) = 0;
+    void deduce_layout(const TensorLayout &src,
+                       const TensorLayout &dst,
+                       const TensorLayout &diff,
+                       TensorLayout &grad);
+
+    virtual size_t get_workspace_in_bytes(const TensorLayout &src,
+                                          const TensorLayout &dst,
+                                          const TensorLayout &diff,
+                                          const TensorLayout &grad) = 0;
+
+protected:
+    void check_exec(const TensorLayout &src, const TensorLayout &dst,
+                    const TensorLayout &diff, const TensorLayout &grad,
+                    size_t workspace_in_bytes);
+};
 }  // namespace megdnn
 #include "megdnn/internal/opr_header_epilogue.h"
 

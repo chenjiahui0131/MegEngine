@@ -25,6 +25,7 @@
 #include "megbrain/opr/dnn/roi_align.h"
 #include "megbrain/opr/dnn/roi_pooling.h"
 #include "megbrain/opr/dnn/tqt.h"
+#include "megbrain/opr/dnn/pixel_shuffle.h"
 #include "megbrain/serialization/sereg.h"
 #include "megdnn/opr_param_defs.h"
 #include "megdnn/oprs/nn.h"
@@ -611,6 +612,9 @@ MGB_SEREG_OPR(TQT, 2);
 MGB_SEREG_OPR(TQTBackward, 3);
 MGB_SEREG_OPR(LSQ, 4);
 MGB_SEREG_OPR(LSQBackward, 5);
+
+MGB_SEREG_OPR(PixelShuffleForward, 1);
+MGB_SEREG_OPR(PixelShuffleBackward, 3);
 }  // namespace opr
 
 }  // namespace mgb
